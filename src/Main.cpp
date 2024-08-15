@@ -36,7 +36,6 @@ int main() {
         cerr << "[MAIN] ERROR: Can't init libvlc." << endl;
         return -4;
     }
-    cout << "[MAIN] a" << endl;
     play("black.jpg");
 
     cout << "[MAIN] init Commander" << endl;
@@ -99,34 +98,22 @@ void execute(const string& message, bool& quit, PlayerConfiguration& configurati
 }
 
 void play(const std::string &file) {
-    cout << "[MAIN] b" << endl;
     stop();
-    cout << "[MAIN] c" << endl;
 
     std::string filePath = mediaDir + file;
-    cout << "[MAIN] " << filePath << endl;
+    cout << "[MAIN] play file : " << filePath << endl;
 
     libvlc_media_t *media = libvlc_media_new_path(instance, filePath.c_str());
-    cout << "[MAIN] d" << endl;
     mediaPlayer = libvlc_media_player_new_from_media(media);
-    cout << "[MAIN] e" << endl;
     libvlc_media_release(media);
-    cout << "[MAIN] f" << endl;
     libvlc_set_fullscreen(mediaPlayer, true);
-    cout << "[MAIN] g" << endl;
     libvlc_media_player_play(mediaPlayer);
-    cout << "[MAIN] h" << endl;
 }
 
 void stop() {
-    cout << "[MAIN] 1" << endl;
     if (mediaPlayer != nullptr) {
-    cout << "[MAIN] 2" << endl;
         libvlc_media_player_stop(mediaPlayer);
-    cout << "[MAIN] 3" << endl;
         libvlc_media_player_release(mediaPlayer);
-    cout << "[MAIN] 4" << endl;
         mediaPlayer = nullptr;
-    cout << "[MAIN] 5" << endl;
     }
 }
