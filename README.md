@@ -83,3 +83,42 @@ To control player, do the following from another ssh session
 ## libVlc
 
 - ```git clone https://github.com/videolan/libvlcpp.git```
+
+# Device Setup
+
+## Rapsberry Pi 5 (rpi5)
+
+## Orange Pi 5 (opi5)
+
+Material
+- NanoPi R6S
+- microSD card (ScanDisk 64gb)
+
+Procedure
+- microSD to eMMC method used
+- on Windows, download and extract image file
+  - file : rk3588-eflasher-debian-bookworm-core-6.1-arm64-20240522.img.gz (Debian 12)
+  - from : https://drive.google.com/drive/folders/1NjpFPnlZua0APcRv4itt6kQzYX0143Jh
+- on Windows, download and extract disk imager
+  - file : win32diskimager.rar
+  - from : https://drive.google.com/drive/folders/1Usla7kNUYVzbMFYN_Aey9NUqgUfXwvqR
+- insert SD card into windows machine
+- use the disk imager run in administrator mode to image the SD card  
+- remove SD card from windows machine and insert into NanoPi and turn on NanoPi
+- once installed, remove
+- ```sudo apt-get update```
+- ```sudo apt-get install task-gnome-desktop``` - long install, at least 60 minutes
+- restart with ```sudo shutdown --reboot now```
+- ```sudo apt-get install vlc```
+
+Testing with vlc showed that video accelration was not working in this case, out of the box.
+
+Testing with the rk3588-eflasher-debian-bullseye-desktop-6.1-arm64-20240620.img.gz image (Debian 11)
+indicates that hardware acceleration works with the default video player.
+No installation for vlc was available.
+
+### Useful Links
+- https://www.friendlyelec.com/index.php?route=product/product&product_id=289
+- https://wiki.friendlyelec.com/wiki/index.php/NanoPi_R6S
+- https://drive.google.com/drive/folders/1KnmBQ3Z0M_5snRC24LjhKb8_tKbcfOkw
+- http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/service-and-support/Orange-Pi-5-Pro.html
