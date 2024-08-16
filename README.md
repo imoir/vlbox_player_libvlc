@@ -49,6 +49,9 @@ To always invoke without GPU, do a ```<ctrl><shift>P```, find and select the ```
 The following instructions prepare a device for compiling and running the player code.
 
 Required installations
+- Open a terminal command window
+- ```sudo apt update```
+- ```sudo apt upgrade```
 - ```sudo apt-get install git build-essential autoconf automake libtool```
 - ```sudo apt-get install libvlc-dev```
 
@@ -66,7 +69,7 @@ Execute player
   - copy the contents of vlbox_player_libvlc/misc/media here
   - also place other media files here (no spaces in the filenames preferred)
 - modify the file vlbox_player_libvlc/misc/config/config.conf as required for paths
-- config file location, modify for path ```export VLBOX_CONFIGURATION="/home/imo/vlbox_player_libvlc/misc/config/config.conf"```
+- config file location, modify for path ```export VLBOX_CONFIGURATION="/home/pi/vlbox_player_libvlc/misc/config/config.conf"```
 - A user session on XWindows must be present.
   - If running from ssh, still required, set display with ```export DISPLAY=:0.0```
 - ```~/vlbox_player_libvlc/bin/player```
