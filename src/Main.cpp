@@ -32,7 +32,7 @@ int main() {
 
     cout << "[MAIN] Create VideoPlayer" << endl;
     instance = libvlc_new(0, nullptr);
-    if (instance == nullptr) {
+    if(instance == nullptr) {
         cerr << "[MAIN] ERROR: Can't init libvlc." << endl;
         return -4;
     }
@@ -111,7 +111,7 @@ void play(const std::string &file) {
 }
 
 void stop() {
-    if (mediaPlayer != nullptr) {
+    if(mediaPlayer != nullptr) {
         libvlc_media_player_stop(mediaPlayer);
         libvlc_media_player_release(mediaPlayer);
         mediaPlayer = nullptr;
