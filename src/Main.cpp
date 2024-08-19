@@ -59,7 +59,7 @@ int main() {
         }
     }
 
-    cout << "[MAIN] Clean...";
+    cout << "[MAIN] Clean..." << endl;
     if(mediaPlayer != nullptr) {
         libvlc_media_player_stop(mediaPlayer);
         libvlc_media_player_release(mediaPlayer);
@@ -67,7 +67,7 @@ int main() {
     }
     libvlc_release(instance);
 
-    cout << "[MAIN] Done.";
+    cout << "[MAIN] Done." << endl;
     return 0;
 }
 
