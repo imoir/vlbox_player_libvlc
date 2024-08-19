@@ -36,7 +36,7 @@ int main() {
         cerr << "[MAIN] ERROR: Can't init libvlc." << endl;
         return -4;
     }
-    play("black.jpg");
+    stop();
 
     cout << "[MAIN] init Commander" << endl;
     Commander commander(configuration);
@@ -60,6 +60,11 @@ int main() {
     }
 
     cout << "[MAIN] Clean...";
+    if(mediaPlayer != nullptr) {
+        libvlc_media_player_stop(mediaPlayer);
+        libvlc_media_player_release(mediaPlayer);
+        mediaPlayer = nullptr;
+    }
     libvlc_release(instance);
 
     cout << "[MAIN] Done.";
@@ -86,10 +91,9 @@ void execute(const string& message, bool& quit, PlayerConfiguration& configurati
         play(parts[1]);
     }
     else if(command == "stop") {
-        play("black.jpg");
+        stop();
     }
     else if(command == "quit") {
-        stop();
         quit = true;
     }
     else {
@@ -98,22 +102,22 @@ void execute(const string& message, bool& quit, PlayerConfiguration& configurati
 }
 
 void play(const std::string &file) {
-    stop();
-
     std::string filePath = mediaDir + file;
     cout << "[MAIN] play file : " << filePath << endl;
 
     libvlc_media_t *media = libvlc_media_new_path(instance, filePath.c_str());
-    mediaPlayer = libvlc_media_player_new_from_media(media);
+
+    if(mediaPlayer == nullptr) {
+        mediaPlayer = libvlc_media_player_new_from_media(media);
+        libvlc_set_fullscreen(mediaPlayer, true);
+    }
+    else {
+        libvlc_media_player_set_media(mediaPlayer, media);
+    }
     libvlc_media_release(media);
-    libvlc_set_fullscreen(mediaPlayer, true);
     libvlc_media_player_play(mediaPlayer);
 }
 
 void stop() {
-    if(mediaPlayer != nullptr) {
-        libvlc_media_player_stop(mediaPlayer);
-        libvlc_media_player_release(mediaPlayer);
-        mediaPlayer = nullptr;
-    }
+    play("black_1s.mp4");
 }
