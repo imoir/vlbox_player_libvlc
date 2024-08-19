@@ -87,6 +87,7 @@ To control player, do the following from another ssh session
 # Device Setup
 
 ## Rapsberry Pi 5 (rpi5)
+- 2024-07-04-raspios-bookworm-arm64-full.img.xz
 
 ## Orange Pi 5 (opi5)
 
