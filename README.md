@@ -48,33 +48,34 @@ To always invoke without GPU, do a ```<ctrl><shift>P```, find and select the ```
 # Build and Execute player
 The following instructions prepare a device for compiling and running the player code.
 
-Required installations
+## Required installations
 - Open a terminal command window
 - ```sudo apt update```
 - ```sudo apt upgrade```
 - ```sudo apt-get install git build-essential autoconf automake libtool```
 - ```sudo apt-get install libvlc-dev```
 
-possibly:
-- ```sudo apt-get install apt-file```
-
-Get and Build player
+## Get and Build player
 - ```cd ~```
 - ```git clone git@github.com:imoir/vlbox_player_libvlc.git```
 - ```cd vlbox_player_libvlc/src```
 - ```make```
 
-Execute player
+## Prepare media for player
 - create a ```~/media``` directory
   - copy the contents of vlbox_player_libvlc/misc/media here
   - also place other media files here (no spaces in the filenames preferred)
 - modify the file vlbox_player_libvlc/misc/config/config.conf as required for paths
-- config file location, modify for path ```export VLBOX_CONFIGURATION="/home/pi/vlbox_player_libvlc/misc/config/config.conf"```
-- A user session on XWindows must be present.
-  - If running from ssh, still required, set display with ```export DISPLAY=:0.0```
-- ```~/vlbox_player_libvlc/bin/player```
 
-To control player, do the following from another ssh session
+## Execute player from ssh
+- connect to device using ssh
+- config file location, modify for path ```export VLBOX_CONFIGURATION="/home/intenscity/vlbox_player_libvlc/misc/config/config.conf"```
+- a user session on XWindows must be present.
+- set display with ```export DISPLAY=:0.0```
+- ```~/vlbox_player_libvlc/bin/player & disown```
+- press enter to see the prompt
+
+To control player, do the following at the prompt
 - ```echo play:video.mp4 >> /tmp/named.pipe```
 - ```echo play:rainbow.jpg >> /tmp/named.pipe```
 - ```echo stop >> /tmp/named.pipe```
