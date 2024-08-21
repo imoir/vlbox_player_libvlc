@@ -1,4 +1,5 @@
 #include <chrono>
+#include <fstream>
 #include <iostream>
 #include <thread>
 #include <vlc/vlc.h>
@@ -16,9 +17,22 @@ using namespace std;
 void execute(const string& message, bool& quit, PlayerConfiguration& configuration);
 void play(const std::string &file);
 void stop();
+void DumpOsRelease();
 
 int main() {
     cout << "[MAIN] Intenscity Player starting..." << endl;
+
+    DumpOsRelease();
+
+    cout << "[MAIN] vlc version : " << libvlc_get_version() << endl;
+    cout << "[MAIN] vlc compiler : " << libvlc_get_version() << endl;
+    cout << "[MAIN] vlc changeset : " << libvlc_get_changeset() << endl;
+
+    const char *displayEnv = getenv("DISPLAY");
+    if(displayEnv != nullptr)
+        cout << "[MAIN] DISPLAY=" << displayEnv << endl;
+    else
+        cout << "[MAIN] DISPLAY NOT SET!!!" << endl;
 
     cout << "[MAIN] Read configuration" << endl;
     PlayerConfiguration configuration;
@@ -45,7 +59,7 @@ int main() {
         return -4;
     }
 
-    cout << "[MAIN] Enter loop (q to quit)" << endl;
+    cout << "[MAIN] Enter loop" << endl;
 
     bool quit = false;
     string nextCommand;
@@ -119,5 +133,20 @@ void play(const std::string &file) {
 }
 
 void stop() {
-    play("black_1s.mp4");
+    play("black.jpg");
+}
+
+void DumpOsRelease() {
+    cout << "[MAIN] OS release : " << endl;
+
+    ifstream file("/etc/os-release");
+    string line;
+
+    if (file.is_open())
+    {
+        while (getline(file, line)) {
+            cout << line << endl;
+        }
+        file.close();
+    }
 }
