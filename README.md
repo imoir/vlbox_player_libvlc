@@ -88,7 +88,29 @@ To control player, do the following at the prompt
 # Device Setup
 
 ## Rapsberry Pi 5 (rpi5)
-- 2024-07-04-raspios-bookworm-arm64-full.img.xz
+- download the Raspberry Pi Imager from https://www.raspberrypi.com/software/ and install
+- download the image 2024-07-04-raspios-bookworm-arm64.img.xz
+  - from https://downloads.raspberrypi.com/raspios_arm64/images/raspios_arm64-2024-07-04/
+- insert microSD card in computer, run imager and image card with image file
+  - in disk imager, for ```Operating System```, select ```Use custom``` from drop down box, then select the image file
+  - at the ```Use OS customization?```, click on the ```EDIT SETTINGS``` button
+  - in the ```GENERAL``` tab, check the ```Set username and password``` checkbox
+  - enter  ```intenscity``` as the ```Username:```, and enter the usual password
+  - in the ```SERVICES``` tab, check the ```Enable SSH``` checkbox, and select the ```Use password authentication``` radio button
+  - click the ```SAVE``` button, then click the ```YES``` button to apply the customisation settings
+- insert card in rpi5 and turn on
+- once booted up, open a terminal window
+- ```sudo apt update```
+- ```sudo apt upgrade```
+- ```sudo apt install git```
+- copy .ssh directory to ```/home/intenscity/```
+- ```mkdir prod```
+- ```cd prod```
+- ```git clone git@github.com:imoir/vlbox_player_libvlc.git player```
+
+### Alternative image
+- download the image 2024-07-04-raspios-bookworm-arm64-full.img.xz
+  - from https://downloads.raspberrypi.com/raspios_full_arm64/images/raspios_full_arm64-2024-07-04/
 
 ## Orange Pi 5 (opi5)
 
