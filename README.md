@@ -102,12 +102,27 @@ To control player, do the following at the prompt
 - once booted up, open a terminal window
 - ```sudo apt update```
 - ```sudo apt upgrade```
-- ```sudo apt install git```
 - copy .ssh directory to ```/home/intenscity/```
-- ```mkdir prod```
+- ```chmod 700 .ssh```
+- ```chmod 600 .ssh/id_ed25519```
+- ```mkdir -p prod/scenarios/test```
 - ```cd prod```
 - ```git clone git@github.com:imoir/vlbox_player_libvlc.git player```
+- ```sudo apt-get install libvlc-dev```
+- ```cp player/misc/media/black.jpg scenarios/```
+- ```cp player/misc/media/rainbow.jpg scenarios/test/```
+- ```cp player/misc/config/vlbox.conf .```
+- ```cd player/src```
+- ```make```
+- copy any other videos to the prod/scenarios/test directory
+- execute the script prod/player/misc/scripts/runPlayer.sh
 
+from an ssh terminal, send commands to the player as follows:
+- ```echo play=rainbow.jpg >> /tmp/payer-manager```
+- ```echo play=video.mp4 >> /tmp/payer-manager```
+- ```echo stop >> /tmp/payer-manager```
+- ```echo quit >> /tmp/payer-manager```
+intenscityL
 ### Alternative image
 - download the image 2024-07-04-raspios-bookworm-arm64-full.img.xz
   - from https://downloads.raspberrypi.com/raspios_full_arm64/images/raspios_full_arm64-2024-07-04/
