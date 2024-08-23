@@ -122,7 +122,31 @@ from an ssh terminal, send commands to the player as follows:
 - ```echo play=video.mp4 >> /tmp/payer-manager```
 - ```echo stop >> /tmp/payer-manager```
 - ```echo quit >> /tmp/payer-manager```
-intenscityL
+
+### Make a disk image
+An image can be made for distribution to other rpi5 devices from a windows machine.
+Note that win32diskimager will amke an initial image of the whole microSD card so using a smaller card (e.g. 16gb) is a good idea.
+- remove files that are not required and should not be shared
+  - ssh keys
+  - logs
+  - history
+- shutdown rpi5
+- remove microSD card
+- in Windows, install then run win32diskimager - https://sourceforge.net/projects/win32diskimager/
+- insert the microSD card into windows
+- in win32diskimager
+  - select the microSD card in the ```Device``` drop down
+  - for ```Image File```, enter a filename to write the image to, e.g. C:/intenscity/vlbox_img/vlbox_dev_240821.img
+  - click on the ```Read``` button
+- ensure Windows Subsystem for Linux (WSL) is installed
+- open a WSL terminal window (click ```start`` and search for WSL)
+- execute the following commands
+  - cd to the directory with the image, e.g. cd /mnt/c/intenscity/vlbox_img/
+  - git clone https://github.com/Drewsif/PiShrink.git
+  - sudo PiShrink/pishrink.sh -z vlbox_dev_240821.img
+- the resulting file can be imaged to a microSD card and run on an rpi5
+  - the imaging can be done with either win32diskimager (recommended) or the Raspberry Pi imager
+
 ### Alternative image
 - download the image 2024-07-04-raspios-bookworm-arm64-full.img.xz
   - from https://downloads.raspberrypi.com/raspios_full_arm64/images/raspios_full_arm64-2024-07-04/
