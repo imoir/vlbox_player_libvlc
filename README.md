@@ -128,6 +128,13 @@ from an ssh terminal, send commands to the player as follows:
   - from https://downloads.raspberrypi.com/raspios_full_arm64/images/raspios_full_arm64-2024-07-04/
 
 ## Device setup for system testing
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+nvm install 18
+nvm install 18
+npm install --global yarn
+npm install --global forever
+npm fund
+
 - ```cd ~/prod```
 - ```git clone git@github.com:imoir/intenscity-vlbox-manager.git manager```
 - enter device info in back office : bo.intenscity.io
