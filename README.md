@@ -123,7 +123,50 @@ from an ssh terminal, send commands to the player as follows:
 - ```echo stop >> /tmp/payer-manager```
 - ```echo quit >> /tmp/payer-manager```
 
-### Make a disk image
+### Alternative image
+- download the image 2024-07-04-raspios-bookworm-arm64-full.img.xz
+  - from https://downloads.raspberrypi.com/raspios_full_arm64/images/raspios_full_arm64-2024-07-04/
+
+## Device setup for system testing
+- ```cd ~/prod```
+- ```git clone git@github.com:imoir/intenscity-vlbox-manager.git manager```
+- enter device info in back office : bo.intenscity.io
+  - create account:
+    - Name : imoTest
+  - create user:
+    - Email : ian.moir@tlmgo.com
+    - Firstname : Ian
+    - Lastname : Moir
+  - add user to account ??
+  - create building:
+    - Account Id : imoTest
+    - Name : imoSousSol
+    - Address :  Ave. Sasseville, Quebec, QC, Canada G1W 1A1
+    - Lat : 46.766411739273906
+    - Lng : -71.28644382709498
+  - create a scenario
+    - Version : 1
+    - Name : imoScene
+    - Type : Simple
+    - Duration : 45
+    - Color : green
+    - Building Id : imoSousSol
+    - Status : Available
+  - create VLBox:
+    - Id : 66c8e979b4af067d0eced8ff
+    - Type : Vlbox
+    - Name : VLBox0011-imo
+    - Account Id : imoTest
+    - Building Id : imoSousSol
+    - Brand : Intenscity
+    - Model : Pi5-v1
+    - Mode : Video
+    - Light Identifier : Dina 1A
+  - copy the VLBox id to the id field in the file prod/vlbox.conf
+    - not strictly needed, but do the same with the name
+
+
+## Make a disk image
 An image can be made for distribution to other rpi5 devices from a windows machine.
 Note that win32diskimager will amke an initial image of the whole microSD card so using a smaller card (e.g. 16gb) is a good idea.
 - remove files that are not required and should not be shared
@@ -146,10 +189,6 @@ Note that win32diskimager will amke an initial image of the whole microSD card s
   - sudo PiShrink/pishrink.sh -z vlbox_dev_240821.img
 - the resulting file can be imaged to a microSD card and run on an rpi5
   - the imaging can be done with either win32diskimager (recommended) or the Raspberry Pi imager
-
-### Alternative image
-- download the image 2024-07-04-raspios-bookworm-arm64-full.img.xz
-  - from https://downloads.raspberrypi.com/raspios_full_arm64/images/raspios_full_arm64-2024-07-04/
 
 ## Orange Pi 5 (opi5)
 
