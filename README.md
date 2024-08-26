@@ -118,10 +118,10 @@ To control player, do the following at the prompt
 - execute the script prod/player/misc/scripts/runPlayer.sh
 
 from an ssh terminal, send commands to the player as follows:
-- ```echo play=rainbow.jpg >> /tmp/payer-manager```
-- ```echo play=video.mp4 >> /tmp/payer-manager```
-- ```echo stop >> /tmp/payer-manager```
-- ```echo quit >> /tmp/payer-manager```
+- ```echo play:test/rainbow.jpg >> /tmp/player-manager```
+- ```echo play:test/video.mp4 >> /tmp/player-manager```
+- ```echo stop >> /tmp/player-manager```
+- ```echo quit >> /tmp/player-manager```
 
 ### Alternative image
 - download the image 2024-07-04-raspios-bookworm-arm64-full.img.xz
