@@ -146,6 +146,42 @@ from an ssh terminal, send commands to the player as follows:
 - ```yarn staging```
 - verify that vlbox-manager is running using the command ```forever list```
 
+### Set player to run as service
+Copy the following into the file ```/etc/systemd/system/intenscity-player.service```
+```
+[Unit]
+Description=Intenscity Player
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+ExecStart=/home/intenscity/prod/player/misc/scritps/runPlayer.sh
+Type=simple
+User=intenscity
+Group=intenscity
+WorkingDirectory=/home/intenscity/prod/player/bin
+Restart=on-failure
+```
+
+Then start the player service with the command ```sudo systemctl enable intenscity-player.service ```
+
+### Set manager to run at startup
+
+Add the following to the end of the file `/home/intenscity/.bashrc` :
+```
+VLBOX_DIR=/home/intenscity/prod/manager
+pushd $VLBOX_DIR > /dev/null
+managerLines=`forever list 2> /dev/null | grep 'Intenscity - vlbox-manager' | wc -l`
+stoppedLines=`forever list 2> /dev/null | grep 'Intenscity - vlbox-manager' | grep 'STOPPED' | wc -l`
+managerRun=$(($managerLines - $stoppedLines))
+if [ $managerRun = 0 ]
+then
+   yarn staging > /dev/null 2>&1
+fi
+popd > /dev/null
+```
+
 ### Back office setup
 - enter device info in back office : bo.intenscity.io
   - create account:
