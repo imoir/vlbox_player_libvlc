@@ -133,7 +133,7 @@ void play(const std::string &file) {
 }
 
 void stop() {
-    play("black.jpg");
+    play("../player/misc/media/black.jpg");
 }
 
 void DumpOsRelease() {
