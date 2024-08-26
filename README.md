@@ -132,12 +132,12 @@ from an ssh terminal, send commands to the player as follows:
 ### Install and run manager
 - Edit /home/intenscity/prod/vlbox.conf for the correct id and name (e.g. 66c8e979b4af067d0eced8ff and VLBox0011-imo)
 - ```curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash```
-- ```sudo apt-get install nvm```?
 - ```source ~/.bashrc```
-- ```nvm install 18
-- ```npm install --global yarn
-- ```npm install --global forever
+- ```nvm install 18```
+- ```npm install --global yarn```
+- ```npm install --global forever```
 - ```cd ~/prod```
+- ```mkdir logs```
 - ```git clone git@github.com:imoir/intenscity-vlbox-manager.git manager```
 - ```cd manager```
 - ```git checkout libvlc```
