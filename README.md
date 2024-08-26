@@ -128,15 +128,25 @@ from an ssh terminal, send commands to the player as follows:
   - from https://downloads.raspberrypi.com/raspios_full_arm64/images/raspios_full_arm64-2024-07-04/
 
 ## Device setup for system testing
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-nvm install 18
-nvm install 18
-npm install --global yarn
-npm install --global forever
-npm fund
 
+### Install and run manager
+- Edit /home/intenscity/prod/vlbox.conf for the correct id and name (e.g. 66c8e979b4af067d0eced8ff and VLBox0011-imo)
+- ```curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash```
+- ```sudo apt-get install nvm```?
+- ```source ~/.bashrc```
+- ```nvm install 18
+- ```npm install --global yarn
+- ```npm install --global forever
 - ```cd ~/prod```
 - ```git clone git@github.com:imoir/intenscity-vlbox-manager.git manager```
+- ```cd manager```
+- ```git checkout libvlc```
+- ```yarn```
+- ```yarn build```
+- ```yarn staging```
+- verify that vlbox-manager is running using the command ```forever list```
+
+### Back office setup
 - enter device info in back office : bo.intenscity.io
   - create account:
     - Name : imoTest
