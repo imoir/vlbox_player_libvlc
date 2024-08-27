@@ -156,7 +156,7 @@ Description=Intenscity Player
 WantedBy=multi-user.target
 
 [Service]
-ExecStart=/home/intenscity/prod/player/misc/scritps/runPlayer.sh
+ExecStart=/home/intenscity/prod/player/misc/scripts/runPlayer.sh
 Type=simple
 User=intenscity
 Group=intenscity
