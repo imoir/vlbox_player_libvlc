@@ -4,6 +4,7 @@
 #include <thread>
 #include <vlc/vlc.h>
 
+#include "BlackJpg.h"
 #include "Helpers.h"
 #include "Commander.h"
 #include "Configuration.h"
@@ -115,12 +116,7 @@ void execute(const string& message, bool& quit, PlayerConfiguration& configurati
     }
 }
 
-void play(const std::string &file) {
-    std::string filePath = mediaDir + file;
-    cout << "[MAIN] play file : " << filePath << endl;
-
-    libvlc_media_t *media = libvlc_media_new_path(instance, filePath.c_str());
-
+void playMedia(libvlc_media_t *media) {
     if(mediaPlayer == nullptr) {
         mediaPlayer = libvlc_media_player_new_from_media(media);
         libvlc_set_fullscreen(mediaPlayer, true);
@@ -132,8 +128,26 @@ void play(const std::string &file) {
     libvlc_media_player_play(mediaPlayer);
 }
 
+void play(const std::string &file) {
+    std::string filePath = mediaDir + file;
+    cout << "[MAIN] play file : " << filePath << endl;
+
+    libvlc_media_t *media = libvlc_media_new_path(instance, filePath.c_str());
+
+    playMedia(media);
+}
+
 void stop() {
-    play("black.jpg");
+    //play("black.jpg");
+    cout << "[MAIN] play black jpg" << endl;
+    libvlc_media_t *media = libvlc_media_new_callbacks(instance,
+                                                       BlackJpg::open,
+                                                       BlackJpg::read,
+                                                       nullptr,
+                                                       BlackJpg::close,
+                                                       nullptr);
+
+    playMedia(media);
 }
 
 void DumpOsRelease() {

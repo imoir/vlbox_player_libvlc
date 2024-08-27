@@ -11,11 +11,11 @@ BINDIR     := ../bin
 
 all: $(BINDIR)/player
 
-$(BINDIR)/player: $(OBJDIR)/Main.o $(OBJDIR)/Commander.o $(OBJDIR)/Configuration.o $(OBJDIR)/Helpers.o
+$(BINDIR)/player: $(OBJDIR)/Main.o $(OBJDIR)/Commander.o $(OBJDIR)/Configuration.o $(OBJDIR)/Helpers.o $(OBJDIR)/BlackJpg.o
 	@mkdir -p $(BINDIR)
-	$(CXX) $(LDFLAGS) $(OBJDIR)/Main.o $(OBJDIR)/Commander.o $(OBJDIR)/Configuration.o $(OBJDIR)/Helpers.o -o $@ $(LDLIBS)
+	$(CXX) $(LDFLAGS) $(OBJDIR)/Main.o $(OBJDIR)/Commander.o $(OBJDIR)/Configuration.o $(OBJDIR)/Helpers.o $(OBJDIR)/BlackJpg.o -o $@ $(LDLIBS)
 
-$(OBJDIR)/Main.o: Main.cpp $(OBJDIR)/Commander.o $(OBJDIR)/Configuration.o $(OBJDIR)/Helpers.o
+$(OBJDIR)/Main.o: Main.cpp $(OBJDIR)/Commander.o $(OBJDIR)/Configuration.o $(OBJDIR)/Helpers.o $(OBJDIR)/BlackJpg.o
 	@mkdir -p $(OBJDIR)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -c -o $@ Main.cpp $(LDLIBS)
 
@@ -30,6 +30,10 @@ $(OBJDIR)/Helpers.o: Helpers.cpp Helpers.h
 $(OBJDIR)/Configuration.o: Configuration.cpp Configuration.h
 	@mkdir -p $(OBJDIR)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -c -o $@ Configuration.cpp $(LDLIBS)
+
+$(OBJDIR)/BlackJpg.o: BlackJpg.cpp BlackJpg.h
+	@mkdir -p $(OBJDIR)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -c -o $@ BlackJpg.cpp $(LDLIBS)
 
 clean:
 	rm -Rf $(PROGRAMS) $(BINDIR) $(OBJDIR)
