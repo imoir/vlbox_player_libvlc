@@ -164,7 +164,21 @@ WorkingDirectory=/home/intenscity/prod/player/bin
 Restart=on-failure
 ```
 
-Then start the player service with the command ```sudo systemctl enable intenscity-player.service ```
+Then start the player service with the command ```sudo systemctl enable intenscity-player.service```
+
+### Set player to run in bash session
+
+export DISPLAY=:0.0
+export VLBOX_CONFIGURATION="/home/intenscity/prod/vlbox.conf"
+pushd /home/intenscity/prod/player
+bin/player
+popd
+
+### Set light box configuration
+
+owned_668677d8956eb642534e1147_ip=10.168.0.166
+owned_668677d8956eb642534e1147_port=2430
+owned_668677d8956eb642534e1147_type=Siudi11A
 
 ### Set manager to run at startup
 
@@ -197,14 +211,6 @@ popd > /dev/null
     - Address :  Ave. Sasseville, Quebec, QC, Canada G1W 1A1
     - Lat : 46.766411739273906
     - Lng : -71.28644382709498
-  - create a scenario
-    - Version : 1
-    - Name : imoScene
-    - Type : Simple
-    - Duration : 45
-    - Color : green
-    - Building Id : imoSousSol
-    - Status : Available
   - create VLBox:
     - Id : 66c8e979b4af067d0eced8ff
     - Type : Vlbox
@@ -217,7 +223,17 @@ popd > /dev/null
     - Light Identifier : Dina 1A
   - copy the VLBox id to the id field in the file prod/vlbox.conf
     - not strictly needed, but do the same with the name
-
+  - create light box
+    - Id : 66cdfa8cb4af067d0eced932
+    - Type : Vlbox
+    - Name : Light_imo
+    - Account Id : imoTest
+    - Building Id : imoSousSol
+    - Brand : Intenscity
+    - Model : VirtualLight
+    - Mode : Light
+    - Owner Box Id : VLBox0011-imo
+    - Light Identifier : Siudi11A
 
 ## Make a disk image
 An image can be made for distribution to other rpi5 devices from a windows machine.
