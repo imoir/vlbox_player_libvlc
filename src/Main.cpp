@@ -10,6 +10,7 @@
 
 static libvlc_instance_t *instance = nullptr;
 static libvlc_media_player_t *mediaPlayer = nullptr;
+static libvlc_media_player_t *backgroundMediaPlayer = nullptr;
 static std::string mediaDir;
 
 using namespace std;
@@ -44,8 +45,17 @@ int main() {
     }
     mediaDir = configuration.mediaDir;
 
-    cout << "[MAIN] Create VideoPlayer" << endl;
     instance = libvlc_new(0, nullptr);
+
+    // backgroundMediaPlayer
+    cout << "[MAIN] Setup background media player" << endl;
+    libvlc_media_t *media = libvlc_media_new_path(instance, "../player/misc/media/rainbow.jpg");
+    backgroundMediaPlayer = libvlc_media_player_new_from_media(media);
+    libvlc_set_fullscreen(backgroundMediaPlayer, true);
+    libvlc_media_release(media);
+    libvlc_media_player_play(backgroundMediaPlayer);
+
+    cout << "[MAIN] Create VideoPlayer" << endl;
     if(instance == nullptr) {
         cerr << "[MAIN] ERROR: Can't init libvlc." << endl;
         return -4;
@@ -78,6 +88,11 @@ int main() {
         libvlc_media_player_stop(mediaPlayer);
         libvlc_media_player_release(mediaPlayer);
         mediaPlayer = nullptr;
+    }
+    if(backgroundMediaPlayer != nullptr) {
+        libvlc_media_player_stop(backgroundMediaPlayer);
+        libvlc_media_player_release(backgroundMediaPlayer);
+        backgroundMediaPlayer = nullptr;
     }
     libvlc_release(instance);
 
