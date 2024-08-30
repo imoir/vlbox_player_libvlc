@@ -123,11 +123,9 @@ void play(const std::string &file) {
 
     if(mediaPlayer == nullptr) {
         mediaPlayer = libvlc_media_player_new_from_media(media);
-        std::this_thread::sleep_for(std::chrono::seconds(1));
         libvlc_set_fullscreen(mediaPlayer, true);
     }
     else {
-        libvlc_media_player_pause(mediaPlayer);
         libvlc_set_fullscreen(mediaPlayer, true);
         libvlc_media_player_set_media(mediaPlayer, media);
     }

@@ -179,6 +179,13 @@ pushd /home/intenscity/prod/player
 bin/player
 popd
 
+### Set labwc as display manager
+
+sudo raspi-config
+select 6 Advanced Options
+select A6 Wayland
+select W3 Labwc
+
 ### Set light box configuration
 
 owned_668677d8956eb642534e1147_ip=10.168.0.166
