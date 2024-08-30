@@ -127,6 +127,11 @@ from an ssh terminal, send commands to the player as follows:
 - download the image 2024-07-04-raspios-bookworm-arm64-full.img.xz
   - from https://downloads.raspberrypi.com/raspios_full_arm64/images/raspios_full_arm64-2024-07-04/
 
+### Add second sudo user
+This will be useful while player is started in .bashrc
+- sudo adduser ic2
+- sudo usermod -aG sudo ic2
+
 ## Device setup for system testing
 
 ### Install and run manager
@@ -234,6 +239,25 @@ popd > /dev/null
     - Mode : Light
     - Owner Box Id : VLBox0011-imo
     - Light Identifier : Siudi11A
+
+### pktriot installation and setup
+- sudo apt-get install apt-transport-https gnupg -y
+- wget -qO - https://download.packetriot.com/linux/debian/pubkey.gpg | sudo apt-key add -
+-  echo "
+deb [arch=amd64] https://download.packetriot.com/linux/debian/buster/stable/non-free/binary-amd64 /
+deb [arch=i386]  https://download.packetriot.com/linux/debian/buster/stable/non-free/binary-i386  /
+deb [arch=armhf] https://download.packetriot.com/linux/debian/buster/stable/non-free/binary-armhf /
+deb [arch=arm64] https://download.packetriot.com/linux/debian/buster/stable/non-free/binary-arm64 /
+" | sudo tee /etc/apt/sources.list.d/packetriot.list
+- sudo apt-get update
+- sudo apt-get install pktriot
+- sudo su pktriot
+- pktriot configure
+- DO NOT under ANY circumstance even ever THINK of trying this command ---> pktriot edit --name 'VLBox0007_imo'
+- pktriot tunnel tcp forward --destination 127.0.0.1 --dstport 22
+- exit
+- sudo systemctl start pktriot
+- sudo systemctl enable pktriot
 
 ## Make a disk image
 An image can be made for distribution to other rpi5 devices from a windows machine.
