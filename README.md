@@ -146,6 +146,8 @@ This will be useful while player is started in .bashrc
 - ```git clone git@github.com:imoir/intenscity-vlbox-manager.git manager```
 - ```cd manager```
 - ```git checkout libvlc```
+- set the projector ip address in the manager/config/staging.json5 file
+- set the light box id and address in the prod/vlbox.conf file
 - ```yarn```
 - ```yarn build```
 - ```yarn staging```
@@ -185,6 +187,9 @@ sudo raspi-config
 select 6 Advanced Options
 select A6 Wayland
 select W3 Labwc
+press enter to accept with red Ok button
+press tab until Finish button is selected and press enter
+press enter to select red Yes button to reboot
 
 ### Set light box configuration
 
@@ -207,6 +212,15 @@ then
 fi
 popd > /dev/null
 ```
+### Disable unneeded services
+
+sudo apt remove rpi-connect
+
+Add the following the the [all] section in the /boot/firmware/config.txt file
+dtoverlay=disable-wifi
+dtoverlay=disable-bt
+
+Remove the splash parameter from the file /boot/firmware/cmdline.txt
 
 ### Back office setup
 - enter device info in back office : bo.intenscity.io
