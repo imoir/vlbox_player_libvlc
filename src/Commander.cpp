@@ -1,15 +1,14 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <iostream>
+#include <log4cpp/Category.hh>
 #include <string.h>
 
 #include "Commander.h"
 
 using namespace std;
 
-#define OUT_PREFIX          "[Commander] "
-#define OUT_PREFIX_ERROR    "[Commander] ERROR: "
+#define OUT_PREFIX_ERROR    "[Commander] ERROR:"
 
 Commander::Commander(PlayerConfiguration& configuration) {
     pipeName = configuration.namedPipe;
@@ -19,7 +18,7 @@ bool Commander::init() {
     int ret = mkfifo(pipeName.c_str(), 0666);
     if(ret != 0) {
         if(errno != EEXIST) {
-            cerr << OUT_PREFIX_ERROR << "unable to make fifo: " << strerror(errno) << endl;
+            log4cpp::Category::getRoot().error("%s unable to make fifo: %s", OUT_PREFIX_ERROR, strerror(errno));
             return false;
         }
     }
@@ -30,7 +29,7 @@ bool Commander::init() {
 bool Commander::openFifo() {
     commandFd = open(pipeName.c_str(), O_RDONLY);
     if(commandFd < 0) {
-        cerr << OUT_PREFIX_ERROR << "unable to open fifo: " << strerror(errno) << endl;
+        log4cpp::Category::getRoot().error("%s unable to open fifo: %s", OUT_PREFIX_ERROR, strerror(errno));
         return false;
     }
     return true;
@@ -49,7 +48,7 @@ bool Commander::getNextCommand(string& nextCommand) {
     // cout << OUT_PREFIX << "read: " << size << " (" << strerror(errno) << ")" << endl;
     if(size <= 0) {
         if(size != 0 && (size != -1 || errno != EAGAIN)) {
-            cerr << OUT_PREFIX_ERROR << "unable to read fifo: " << strerror(errno) << endl;
+            log4cpp::Category::getRoot().error("%s unable to read fifo: %s", OUT_PREFIX_ERROR, strerror(errno));
         }
     }
     else {

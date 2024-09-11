@@ -1,4 +1,4 @@
-#include <iostream>
+#include <log4cpp/Category.hh>
 #include <fstream>
 #include <string>
 
@@ -11,7 +11,7 @@ bool readConfiguration(PlayerConfiguration& configuration) {
 
     const char *configurationFile = getenv("VLBOX_CONFIGURATION");
     if(configurationFile == nullptr) {
-        cerr << "[CONFIGURATION] Unable to find the environment variable VLBOX_CONFIGURATION" << endl;
+        log4cpp::Category::getRoot().error("[CONFIGURATION] Unable to find the environment variable VLBOX_CONFIGURATION");
         return false;
     }
 
@@ -48,7 +48,7 @@ bool readConfiguration(PlayerConfiguration& configuration) {
                 }
             }
             else {
-                cerr << "[MAIN] ERROR: Configuration error at line " << lineNumber << ": no =" << endl;
+                log4cpp::Category::getRoot().error("[MAIN] ERROR: Configuration error at line %d: no=", lineNumber);
             }
             lineNumber++;
         }
@@ -59,12 +59,14 @@ bool readConfiguration(PlayerConfiguration& configuration) {
 }
 
 void displayConfiguration(PlayerConfiguration configuration) {
-    cout << "Player configuration: " << endl;
-    cout << "\t- debug: " << (configuration.debug ? "true" : "false") << endl;
-    cout << "\t- named pipe: " << configuration.namedPipe << endl;
-    cout << "\t- media dir: " << configuration.mediaDir << endl;
-    cout << "\t- vlbox name: " << configuration.name << endl;
-    cout << "\t- vlbox id: " << configuration.id << endl;
-    cout << "\t- vlbox mode: " << configuration.mode << endl;
-    cout << "\t- audio: " << (configuration.audio ? "true" : "false") << endl;
+    log4cpp::Category &logger = log4cpp::Category::getRoot();
+
+    logger.info("Player configuration:");
+    logger.info("- debug: %s", (configuration.debug ? "true" : "false"));
+    logger.info("- named pipe: %s", configuration.namedPipe);
+    logger.info("- media dir: %s", configuration.mediaDir);
+    logger.info("- vlbox name: %s", configuration.name);
+    logger.info("- vlbox id: %s", configuration.id);
+    logger.info("- vlbox mode: %s", configuration.mode);
+    logger.info("- audio: %s", (configuration.audio ? "true" : "false"));
 }

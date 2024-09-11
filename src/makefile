@@ -4,7 +4,7 @@ CXX        := g++
 CXXFLAGS   := -std=c++17 -pthread -g -O2 -Wall
 CFLAGS     := -g -O2 -Wall
 LDFLAGS    :=
-LDLIBS     := -g -O2 -Wall -lvlc -Wl,-rpath='$$ORIGIN' -Wl,--allow-shlib-undefined
+LDLIBS     := -g -O2 -Wall -lvlc -llog4cpp -Wl,-rpath='$$ORIGIN' -Wl,--allow-shlib-undefined
 PROGRAMS   := player
 OBJDIR	   := ../build
 BINDIR     := ../bin

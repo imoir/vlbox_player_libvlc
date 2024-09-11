@@ -1,6 +1,7 @@
 #include <chrono>
 #include <fstream>
-#include <iostream>
+#include <log4cpp/Category.hh>
+#include <log4cpp/SyslogAppender.hh>
 #include <thread>
 #include <vlc/vlc.h>
 
@@ -20,21 +21,27 @@ void stop();
 void DumpOsRelease();
 
 int main() {
-    cout << "[MAIN] Intenscity Player starting..." << endl;
+    log4cpp::Appender *logAppender = new log4cpp::SyslogAppender("player", "player");
+    logAppender->setLayout(new log4cpp::BasicLayout());
+    log4cpp::Category& logger = log4cpp::Category::getRoot();
+    logger.setPriority(log4cpp::Priority::INFO);
+    logger.addAppender(logAppender);
+
+    logger.info("[MAIN] Intenscity Player starting...");
 
     DumpOsRelease();
 
-    cout << "[MAIN] vlc version : " << libvlc_get_version() << endl;
-    cout << "[MAIN] vlc compiler : " << libvlc_get_version() << endl;
-    cout << "[MAIN] vlc changeset : " << libvlc_get_changeset() << endl;
+    logger.info("[MAIN] vlc version : %s", libvlc_get_version());
+    logger.info("[MAIN] vlc compiler : %s", libvlc_get_compiler());
+    logger.info("[MAIN] vlc changeset : %s", libvlc_get_changeset());
 
     const char *displayEnv = getenv("DISPLAY");
     if(displayEnv != nullptr)
-        cout << "[MAIN] DISPLAY=" << displayEnv << endl;
+        logger.info("[MAIN] DISPLAY=%s", displayEnv);
     else
-        cout << "[MAIN] DISPLAY NOT SET!!!" << endl;
+        logger.info("[MAIN] DISPLAY NOT SET!!!");
 
-    cout << "[MAIN] Read configuration" << endl;
+    logger.info("[MAIN] Read configuration");
     PlayerConfiguration configuration;
     if(!readConfiguration(configuration)) {
         return -1;
@@ -44,22 +51,22 @@ int main() {
     }
     mediaDir = configuration.mediaDir;
 
-    cout << "[MAIN] Create VideoPlayer" << endl;
+    logger.info("[MAIN] Create VideoPlayer");
     instance = libvlc_new(0, nullptr);
     if(instance == nullptr) {
-        cerr << "[MAIN] ERROR: Can't init libvlc." << endl;
+        logger.error("[MAIN] ERROR: Can't init libvlc.");
         return -4;
     }
     stop();
 
-    cout << "[MAIN] init Commander" << endl;
+    logger.info("[MAIN] init Commander");
     Commander commander(configuration);
     if(!commander.init()) {
-        cerr << "[MAIN] ERROR: Can't init Commander." << endl;
+        logger.error("[MAIN] ERROR: Can't init Commander.");
         return -4;
     }
 
-    cout << "[MAIN] Enter loop" << endl;
+    logger.info("[MAIN] Enter loop");
 
     bool quit = false;
     string nextCommand;
@@ -68,12 +75,12 @@ int main() {
 
         // read the command
         if(commander.getNextCommand(nextCommand)) {
-            cout << "[MAIN] Next Command: " << nextCommand << endl;
+            logger.info("[MAIN] Next Command: %s", nextCommand);
             execute(nextCommand, quit, configuration);
         }
     }
 
-    cout << "[MAIN] Clean..." << endl;
+    logger.info("[MAIN] Clean...");
     if(mediaPlayer != nullptr) {
         libvlc_media_player_stop(mediaPlayer);
         libvlc_media_player_release(mediaPlayer);
@@ -81,7 +88,7 @@ int main() {
     }
     libvlc_release(instance);
 
-    cout << "[MAIN] Done." << endl;
+    logger.info("[MAIN] Done.");
     return 0;
 }
 
@@ -99,7 +106,8 @@ void execute(const string& message, bool& quit, PlayerConfiguration& configurati
     string command = parts[0];
     trim(command);
 
-    cout << "[MAIN] command: [" << command << "]" << endl;
+    log4cpp::Category& logger = log4cpp::Category::getRoot();
+    logger.info("[MAIN] command: [%s]", command);
 
     if(command == "play") {
         play(parts[1]);
@@ -111,13 +119,14 @@ void execute(const string& message, bool& quit, PlayerConfiguration& configurati
         quit = true;
     }
     else {
-        cerr << "[MAIN] unknown command: " << command << endl;
+        logger.error("[MAIN] unknown command: %s", command);
     }
 }
 
 void play(const std::string &file) {
     std::string filePath = mediaDir + file;
-    cout << "[MAIN] play file : " << filePath << endl;
+    log4cpp::Category& logger = log4cpp::Category::getRoot();
+    logger.info("[MAIN] play file : %s", filePath);
 
     libvlc_media_t *media = libvlc_media_new_path(instance, filePath.c_str());
 
@@ -138,7 +147,8 @@ void stop() {
 }
 
 void DumpOsRelease() {
-    cout << "[MAIN] OS release : " << endl;
+    log4cpp::Category& logger = log4cpp::Category::getRoot();
+    logger.info("[MAIN] OS release :");
 
     ifstream file("/etc/os-release");
     string line;
@@ -146,7 +156,7 @@ void DumpOsRelease() {
     if (file.is_open())
     {
         while (getline(file, line)) {
-            cout << line << endl;
+            logger.info(" - %s", line);
         }
         file.close();
     }
