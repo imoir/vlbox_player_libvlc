@@ -20,6 +20,26 @@ void play(const std::string &file);
 void stop();
 void DumpOsRelease();
 
+static void libvlc_log_callback(void *data, int level, const libvlc_log_t *ctx, const char *fmt, va_list args)
+{
+    log4cpp::Category &logger = log4cpp::Category::getRoot();
+    switch (level)
+    {
+    case LIBVLC_DEBUG:
+        logger.debug(fmt, args);
+        break;
+    case LIBVLC_NOTICE:
+        logger.info(fmt, args);
+        break;
+    case LIBVLC_WARNING:
+        logger.warn(fmt, args);
+        break;
+    case LIBVLC_ERROR:
+        logger.error(fmt, args);
+        break;
+    }
+}
+
 int main() {
     log4cpp::Appender *logAppender = new log4cpp::SyslogAppender("player", "player");
     logAppender->setLayout(new log4cpp::BasicLayout());
@@ -57,6 +77,7 @@ int main() {
         logger.error("[MAIN] ERROR: Can't init libvlc.");
         return -4;
     }
+    libvlc_log_set(instance, libvlc_log_callback, nullptr);
     stop();
 
     logger.info("[MAIN] init Commander");
