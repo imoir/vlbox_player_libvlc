@@ -24,29 +24,61 @@ void DumpOsRelease();
 static void libvlc_log_callback(void *data, int level, const libvlc_log_t *ctx, const char *fmt, va_list args)
 {
     log4cpp::Category &logger = log4cpp::Category::getRoot();
-    constexpr const int BufferLength = 100;
+    int logLevel = logger.getPriority();
+    switch (level)
+    {
+    case LIBVLC_DEBUG:
+        if (logLevel < log4cpp::Priority::DEBUG)
+            return;
+        break;
+    case LIBVLC_NOTICE:
+        if (logLevel < log4cpp::Priority::INFO)
+            return;
+        break;
+    case LIBVLC_WARNING:
+        if (logLevel < log4cpp::Priority::WARN)
+            return;
+        break;
+    case LIBVLC_ERROR:
+        if (logLevel < log4cpp::Priority::ERROR)
+            return;
+        break;
+    }
+
+    char *bufferToUse = nullptr;
+    char *allocatedBuffer = nullptr;
+    constexpr const int BufferLength = 200;
     char buffer[BufferLength];
     int len = vsnprintf(buffer, BufferLength, fmt, args);
+    if (len >= BufferLength)
+    {
+        allocatedBuffer = new char[len + 1];
+        vsnprintf(allocatedBuffer, len + 1, fmt, args);
+        bufferToUse = allocatedBuffer;
+    }
+    else
+    {
+        bufferToUse = buffer;
+    }
 
     switch (level)
     {
     case LIBVLC_DEBUG:
-        logger.debug("[VLCLIB] %s", buffer);
+        logger.debug("[VLCLIB] %s", bufferToUse);
         break;
     case LIBVLC_NOTICE:
-        logger.info("[VLCLIB] %s", buffer);
+        logger.info("[VLCLIB] %s", bufferToUse);
         break;
     case LIBVLC_WARNING:
-        logger.warn("[VLCLIB] %s", buffer);
+        logger.warn("[VLCLIB] %s", bufferToUse);
         break;
     case LIBVLC_ERROR:
-        logger.error("[VLCLIB] %s", buffer);
+        logger.error("[VLCLIB] %s", bufferToUse);
         break;
     }
-    if (len >= BufferLength)
-    {
-        logger.error("[VLCLIB] last vlc log message truncated - message length was %d", len);
-    }
+
+    if (allocatedBuffer != nullptr)
+        delete allocatedBuffer;
 }
 
 int main() {
