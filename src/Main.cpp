@@ -2,6 +2,7 @@
 #include <fstream>
 #include <log4cpp/Category.hh>
 #include <log4cpp/SyslogAppender.hh>
+#include <cstdio>
 #include <thread>
 #include <vlc/vlc.h>
 
@@ -23,20 +24,28 @@ void DumpOsRelease();
 static void libvlc_log_callback(void *data, int level, const libvlc_log_t *ctx, const char *fmt, va_list args)
 {
     log4cpp::Category &logger = log4cpp::Category::getRoot();
+    constexpr const int BufferLength = 100;
+    char buffer[BufferLength];
+    int len = vsnprintf(buffer, BufferLength, fmt, args);
+
     switch (level)
     {
     case LIBVLC_DEBUG:
-        logger.debug(fmt, args);
+        logger.debug("[VLCLIB] %s", buffer);
         break;
     case LIBVLC_NOTICE:
-        logger.info(fmt, args);
+        logger.info("[VLCLIB] %s", buffer);
         break;
     case LIBVLC_WARNING:
-        logger.warn(fmt, args);
+        logger.warn("[VLCLIB] %s", buffer);
         break;
     case LIBVLC_ERROR:
-        logger.error(fmt, args);
+        logger.error("[VLCLIB] %s", buffer);
         break;
+    }
+    if (len >= BufferLength)
+    {
+        logger.error("[VLCLIB] last vlc log message truncated - message length was %d", len);
     }
 }
 
