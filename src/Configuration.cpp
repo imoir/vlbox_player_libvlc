@@ -63,10 +63,10 @@ void displayConfiguration(PlayerConfiguration configuration) {
 
     logger.info("Player configuration:");
     logger.info("- debug: %s", (configuration.debug ? "true" : "false"));
-    logger.info("- named pipe: %s", configuration.namedPipe);
-    logger.info("- media dir: %s", configuration.mediaDir);
-    logger.info("- vlbox name: %s", configuration.name);
-    logger.info("- vlbox id: %s", configuration.id);
-    logger.info("- vlbox mode: %s", configuration.mode);
+    logger.info("- named pipe: %s", configuration.namedPipe.c_str());
+    logger.info("- media dir: %s", configuration.mediaDir.c_str());
+    logger.info("- vlbox name: %s", configuration.name.c_str());
+    logger.info("- vlbox id: %s", configuration.id.c_str());
+    logger.info("- vlbox mode: %s", configuration.mode.c_str());
     logger.info("- audio: %s", (configuration.audio ? "true" : "false"));
 }

@@ -75,7 +75,7 @@ int main() {
 
         // read the command
         if(commander.getNextCommand(nextCommand)) {
-            logger.info("[MAIN] Next Command: %s", nextCommand);
+            logger.info("[MAIN] Next Command: %s", nextCommand.c_str());
             execute(nextCommand, quit, configuration);
         }
     }
@@ -107,7 +107,7 @@ void execute(const string& message, bool& quit, PlayerConfiguration& configurati
     trim(command);
 
     log4cpp::Category& logger = log4cpp::Category::getRoot();
-    logger.info("[MAIN] command: [%s]", command);
+    logger.info("[MAIN] command: [%s]", command.c_str());
 
     if(command == "play") {
         play(parts[1]);
@@ -119,14 +119,14 @@ void execute(const string& message, bool& quit, PlayerConfiguration& configurati
         quit = true;
     }
     else {
-        logger.error("[MAIN] unknown command: %s", command);
+        logger.error("[MAIN] unknown command: %s", command.c_str());
     }
 }
 
 void play(const std::string &file) {
     std::string filePath = mediaDir + file;
     log4cpp::Category& logger = log4cpp::Category::getRoot();
-    logger.info("[MAIN] play file : %s", filePath);
+    logger.info("[MAIN] play file : %s", filePath.c_str());
 
     libvlc_media_t *media = libvlc_media_new_path(instance, filePath.c_str());
 
@@ -156,7 +156,7 @@ void DumpOsRelease() {
     if (file.is_open())
     {
         while (getline(file, line)) {
-            logger.info(" - %s", line);
+            logger.info(" - %s", line.c_str());
         }
         file.close();
     }
