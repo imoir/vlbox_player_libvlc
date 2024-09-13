@@ -1,10 +1,14 @@
 #include <chrono>
+#include <cstdarg>
+#include <cstring>
 #include <fstream>
 #include <log4cpp/Category.hh>
 #include <log4cpp/SimpleLayout.hh>
 #include <log4cpp/SyslogAppender.hh>
 #include <cstdio>
 #include <thread>
+#include <sys/reboot.h>
+#include <unistd.h>
 #include <vlc/vlc.h>
 
 #include "Helpers.h"
@@ -25,6 +29,25 @@ void DumpOsRelease();
 static void libvlc_log_callback(void *data, int level, const libvlc_log_t *ctx, const char *fmt, va_list args)
 {
     log4cpp::Category &logger = log4cpp::Category::getRoot();
+
+    // This is kind of ugly, but ...
+    // it detects when the window frame is displayed
+    if (level == LIBVLC_DEBUG && strcmp(fmt, "VoutDisplayEvent 'resize' %dx%d") == 0)
+    {
+        std::va_list args2;
+        va_copy(args2, args);
+        int width = va_arg(args2, int);
+        int height = va_arg(args2, int);
+        va_end(args2);
+        logger.info("[VLCLIB] height reported %d (width = %d)", height, width);
+        if (height < 1080)
+        {
+            sync();
+            //setuid(0);
+            reboot(RB_AUTOBOOT);
+        }
+    }
+
     int logLevel = logger.getPriority();
     switch (level)
     {
