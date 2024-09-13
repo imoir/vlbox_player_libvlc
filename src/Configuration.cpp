@@ -1,64 +1,37 @@
-#include <log4cpp/Category.hh>
-#include <fstream>
-#include <string>
-
 #include "Configuration.h"
 
-using namespace std;
+#include <fstream>
+#include <log4cpp/Category.hh>
+#include <nlohmann/json.hpp>
 
-bool readConfiguration(PlayerConfiguration& configuration) {
-    fstream file;
+static const char *ConfigFilename = "/etc/vlbox.conf";
 
-    const char *configurationFile = getenv("VLBOX_CONFIGURATION");
-    if(configurationFile == nullptr) {
-        log4cpp::Category::getRoot().error("[CONFIGURATION] Unable to find the environment variable VLBOX_CONFIGURATION");
+bool readConfiguration(PlayerConfiguration &configuration)
+{
+    std::ifstream configurationFile(ConfigFilename);
+    if (configurationFile.is_open() != true)
+    {
+        log4cpp::Category::getRoot().error("[CONFIGURATION] Unable to open config file - %s", ConfigFilename);
         return false;
     }
 
-    file.open(configurationFile, ios::in);
-    if(file.is_open()) {
-        string line;
-        int lineNumber = 1;
-        while(getline(file, line)) {
-            string::size_type idx = line.find( '=', 0 );
-            if(idx != string::npos) {
-                const string key = line.substr(0, idx);
-                const string value = line.substr(idx + 1);
+    nlohmann::json config = nlohmann::json::parse(configurationFile);
+    nlohmann::json player = config["player"];
 
-                if(key == "debug") {
-                    configuration.debug = value == "true";
-                }
-                else if(key == "pipe") {
-                    configuration.namedPipe = value;
-                }
-                else if(key == "media") {
-                    configuration.mediaDir = value;
-                }
-                else if(key == "name") {
-                    configuration.name = value;
-                }
-                else if(key == "id") {
-                    configuration.id = value;
-                }
-                else if(key == "audio") {
-                    configuration.audio = value == "true";
-                }
-                else if(key == "mode") {
-                    configuration.mode = value;
-                }
-            }
-            else {
-                log4cpp::Category::getRoot().error("[MAIN] ERROR: Configuration error at line %d: no=", lineNumber);
-            }
-            lineNumber++;
-        }
-        file.close();
-    }
+    configuration.debug = player["debug"];
+    configuration.namedPipe = player["pipe"];
+    configuration.mediaDir = player["media"];
+    configuration.name = player["name"];
+    configuration.id = player["id"];
+    configuration.audio = player["audio"];
+    configuration.mode = player["mode"];
+    configuration.height = player["height"];
 
     return true;
 }
 
-void displayConfiguration(PlayerConfiguration configuration) {
+void displayConfiguration(PlayerConfiguration configuration)
+{
     log4cpp::Category &logger = log4cpp::Category::getRoot();
 
     logger.info("Player configuration:");
