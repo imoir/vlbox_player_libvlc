@@ -1,6 +1,7 @@
 #include <chrono>
 #include <fstream>
 #include <log4cpp/Category.hh>
+#include <log4cpp/SimpleLayout.hh>
 #include <log4cpp/SyslogAppender.hh>
 #include <cstdio>
 #include <thread>
@@ -83,7 +84,7 @@ static void libvlc_log_callback(void *data, int level, const libvlc_log_t *ctx, 
 
 int main() {
     log4cpp::Appender *logAppender = new log4cpp::SyslogAppender("player", "player");
-    logAppender->setLayout(new log4cpp::BasicLayout());
+    logAppender->setLayout(new log4cpp::SimpleLayout());
     log4cpp::Category& logger = log4cpp::Category::getRoot();
     logger.setPriority(log4cpp::Priority::INFO);
     logger.addAppender(logAppender);
