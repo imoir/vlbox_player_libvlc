@@ -1,3 +1,4 @@
+#include <cerrno>
 #include <chrono>
 #include <cstdarg>
 #include <cstring>
@@ -42,9 +43,14 @@ static void libvlc_log_callback(void *data, int level, const libvlc_log_t *ctx, 
         logger.info("[VLCLIB] height reported %d (width = %d)", height, width);
         if (height < 1080)
         {
+            logger.error("[VLCLIB] height indicates presence of frame - reboot now");
             sync();
-            //setuid(0);
-            reboot(RB_AUTOBOOT);
+            int result = setuid(0);
+            if (result != 0)
+                logger.error("[VLCLIB] unable to setuid - %s", strerror(errno));
+            result = reboot(RB_AUTOBOOT);
+            if (result != 0)
+                logger.error("[VLCLIB] unable to reboot - %s", strerror(errno));
         }
     }
 
