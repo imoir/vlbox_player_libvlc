@@ -54,6 +54,8 @@ The following instructions prepare a device for compiling and running the player
 - ```sudo apt upgrade```
 - ```sudo apt-get install git build-essential autoconf automake libtool```
 - ```sudo apt-get install libvlc-dev```
+- ```sudo apt-get -y install liblog4cpp5-dev liblog4cpp5v5 liblog4cpp-doc```
+- ```sudo apt-get -y install nlohmann-json3-dev```
 
 ## Get and Build player
 - ```cd ~```
@@ -111,7 +113,9 @@ To control player, do the following at the prompt
 - ```sudo apt-get install libvlc-dev```
 - ```cp player/misc/media/black.jpg scenarios/```
 - ```cp player/misc/media/rainbow.jpg scenarios/test/```
-- ```cp player/misc/config/vlbox.conf .```
+- ```sudo cp player/misc/config/vlbox.conf /etc/```
+- ```sudo chown intenscity /etc/vlbox.conf```
+- ```sudo chgrp intenscity /etc/vlbox.conf```
 - ```cd player/src```
 - ```make```
 - copy any other videos to the prod/scenarios/test directory
@@ -153,6 +157,21 @@ This will be useful while player is started in .bashrc
 - ```yarn staging```
 - verify that vlbox-manager is running using the command ```forever list```
 
+- yarn add axios-digest ???
+
+WARNING - very FUGLY
+replace line 154 in node_modules/axios-digest/index.js
+
+        var paramsString = authHeader.split(/\s*,?\s*Digest\s*/).filter(function (v) { return v !== ''; });
+
+with
+
+        var authHeader2 = authHeader.concat(", opaque=\"opaque\"");
+        var paramsString = authHeader2.split(/\s*,?\s*Digest\s*/).filter(function (v) { return v !== ''; });
+or
+        const authHeader2 = authHeader.concat(", opaque=\"opaque\"");
+        var paramsString = authHeader2.split(/\s*,?\s*Digest\s*/).filter(function (v) { return v !== ''; });
+
 ### Set player to run as service
 Copy the following into the file ```/etc/systemd/system/intenscity-player.service```
 ```
@@ -175,11 +194,17 @@ Then start the player service with the command ```sudo systemctl enable intensci
 
 ### Set player to run in bash session
 
-export DISPLAY=:0.0
-export VLBOX_CONFIGURATION="/home/intenscity/prod/vlbox.conf"
-pushd /home/intenscity/prod/player
-bin/player
-popd
+```
+# Only launch player if it is not already running
+playerRun=`ps -aux | grep bin/player$ | wc -l`
+if [ $playerRun = 0 ]
+then
+   export DISPLAY=:0.0
+   pushd /home/intenscity/prod/player
+   bin/player
+   popd
+fi
+```
 
 ### Set labwc as display manager
 
@@ -279,6 +304,9 @@ deb [arch=arm64] https://download.packetriot.com/linux/debian/buster/stable/non-
 - exit
 - sudo systemctl start pktriot
 - sudo systemctl enable pktriot
+
+### Varia
+- Adjust volume : alsamixer
 
 ## Make a disk image
 An image can be made for distribution to other rpi5 devices from a windows machine.
