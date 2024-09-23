@@ -16,7 +16,7 @@
    "port" : 2430,
    "type" : "Siudi11A"
   }
- ]
+ ],
  "environment": "staging",
  "debug" : true,
  "server" : {
