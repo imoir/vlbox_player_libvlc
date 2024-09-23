@@ -4,7 +4,7 @@
 #include <log4cpp/Category.hh>
 #include <nlohmann/json.hpp>
 
-static const char *ConfigFilename = "/etc/vlbox/vlbox.conf";
+static const char *ConfigFilename = "/etc/vlbox/vlbox.json";
 
 bool readConfiguration(PlayerConfiguration &configuration)
 {

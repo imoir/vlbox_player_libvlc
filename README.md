@@ -107,13 +107,12 @@ To control player, do the following at the prompt
 - copy .ssh directory to ```/home/intenscity/```
 - ```chmod 700 .ssh```
 - ```chmod 600 .ssh/id_ed25519```
-- ```mkdir -p prod/scenarios/test```
 - ```cd prod```
 - ```git clone git@github.com:imoir/vlbox_player_libvlc.git player```
 - ```sudo apt-get install libvlc-dev```
 - ```sudo mkdir /etc/vlbox```
 - ```sudo chown intenscity:intenscity /etc/vlbox```
-- ```sudo cp player/misc/config/vlbox.conf /etc/vlbox/```
+- ```cp player/misc/config/vlbox_XXXX.json /etc/vlbox/vlbox.json```
 - ```cd player/src```
 - ```make```
 - execute the script prod/player/misc/scripts/runPlayer.sh
