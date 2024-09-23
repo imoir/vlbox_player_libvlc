@@ -42,7 +42,7 @@ static void libvlc_log_callback(void *data, int level, const libvlc_log_t *ctx, 
         if (configuration != nullptr && configuration->height != 0 && height < configuration->height)
         {
             logger.error("[VLCLIB] height indicates presence of frame - reboot in 5 minutes");
-            int ret = system("shutdown -r +5");
+            int ret = system("sleep 5m && shutdown -r now");
             logger.info("[VLCLIB] system call return value - %d", ret);
         }
     }
