@@ -111,14 +111,11 @@ To control player, do the following at the prompt
 - ```cd prod```
 - ```git clone git@github.com:imoir/vlbox_player_libvlc.git player```
 - ```sudo apt-get install libvlc-dev```
-- ```cp player/misc/media/black.jpg scenarios/```
-- ```cp player/misc/media/rainbow.jpg scenarios/test/```
-- ```sudo cp player/misc/config/vlbox.conf /etc/```
-- ```sudo chown intenscity /etc/vlbox.conf```
-- ```sudo chgrp intenscity /etc/vlbox.conf```
+- ```sudo mkdir /etc/vlbox```
+- ```sudo chown intenscity:intenscity /etc/vlbox```
+- ```sudo cp player/misc/config/vlbox.conf /etc/vlbox/```
 - ```cd player/src```
 - ```make```
-- copy any other videos to the prod/scenarios/test directory
 - execute the script prod/player/misc/scripts/runPlayer.sh
 
 from an ssh terminal, send commands to the player as follows:
@@ -147,6 +144,8 @@ This will be useful while player is started in .bashrc
 - ```npm install --global forever```
 - ```cd ~/prod```
 - ```mkdir logs```
+- ```sudo mkdir /var/log/vlbox```
+- ```sudo chown intenscity:intenscity /var/log/vlbox``` 
 - ```git clone git@github.com:imoir/intenscity-vlbox-manager.git manager```
 - ```cd manager```
 - ```git checkout libvlc```
@@ -157,7 +156,9 @@ This will be useful while player is started in .bashrc
 - ```yarn staging```
 - verify that vlbox-manager is running using the command ```forever list```
 
-- yarn add axios-digest ???
+- yarn add axios-digest
+- yarn add winston
+- yarn add winston-syslog
 
 WARNING - very FUGLY
 replace line 154 in node_modules/axios-digest/index.js
@@ -305,8 +306,26 @@ deb [arch=arm64] https://download.packetriot.com/linux/debian/buster/stable/non-
 - sudo systemctl start pktriot
 - sudo systemctl enable pktriot
 
+### ssh tunnels
+
+#### Plaza Athénée
+ssh -L 12180:192.168.100.100:80 -p22566 pi@quirky-snow-95242.pktriot.net
+http://127.0.0.1:12180/cgi-bin/home
+http://127.0.0.1:12080/api/v01/control/escvp21?cmd=PWR?
+
+#### Chalon
+ssh -L 12807:192.168.10.17:80 -p22884 intenscity@intenscity-0007.pktriot.net
+http://127.0.0.1:12807/cgi-bin/home
+http://127.0.0.1:12807/api/v01/control/escvp21?cmd=PWR?
+
+#### Bureau Intenscity
+ssh -L 12808:10.168.10.183:80 -p22639 intenscity@intenscity-0008.pktriot.net
+http://127.0.0.1:12808/cgi-bin/home
+http://127.0.0.1:12808/api/v01/control/escvp21?cmd=PWR?
+
 ### Varia
 - Adjust volume : alsamixer
+- Get status from server : https://api.intenscity.io/vlbox-manager/66c8e979b4af067d0eced8ff/status
 
 ## Make a disk image
 An image can be made for distribution to other rpi5 devices from a windows machine.
