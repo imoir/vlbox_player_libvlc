@@ -3,16 +3,16 @@
   "debug" : true,
   "pipe" : "/tmp/player-manager",
   "media" : "/home/intenscity/prod/scenarios/",
-  "name" : "VLBox0008-bureau",
-  "id" : "665e28b6e0ba4fc39b8fbaf0",
+  "name" : "VLBox0011-imo",
+  "id" : "66c8e979b4af067d0eced8ff",
   "mode" : "video",
   "audio" : false,
-  "height" : 0
+  "height" : 1080
  },
  "lightbox" : [
   {
    "id" : "66cdfa8cb4af067d0eced932",
-   "ip" : "10.168.0.166",
+   "ip" : "192.168.50.31",
    "port" : 2430,
    "type" : "Siudi11A"
   }
@@ -28,7 +28,7 @@
   "JSON_SIZE_LIMIT" : "50mb"
  },
  "projector" : {
-  "disabled" : false,
+  "disabled" : true,
   "apiUrl" : "http://10.168.0.183/api/v01/control/escvp21?cmd=",
   "user" : "EPSONWEB",
   "password" : "CITY"
