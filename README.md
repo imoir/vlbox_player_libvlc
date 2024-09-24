@@ -318,17 +318,18 @@ http://127.0.0.1:12807/cgi-bin/home
 http://127.0.0.1:12807/api/v01/control/escvp21?cmd=PWR?
 
 #### Bureau Intenscity
-ssh -L 12808:10.168.10.183:80 -p22639 intenscity@intenscity-0008.pktriot.net
+ssh -L 12808:10.168.0.183:80 -p22639 intenscity@intenscity-0008.pktriot.net
 http://127.0.0.1:12808/cgi-bin/home
 http://127.0.0.1:12808/api/v01/control/escvp21?cmd=PWR?
 
 ### Varia
 - Adjust volume : alsamixer
 - Get status from server : https://api.intenscity.io/vlbox-manager/66c8e979b4af067d0eced8ff/status
+  - Use VLBox id to get status
 
 ## Make a disk image
 An image can be made for distribution to other rpi5 devices from a windows machine.
-Note that win32diskimager will amke an initial image of the whole microSD card so using a smaller card (e.g. 16gb) is a good idea.
+Note that win32diskimager will make an initial image of the whole microSD card so using a smaller card (e.g. 16gb) is a good idea.
 - remove files that are not required and should not be shared
   - ssh keys
   - logs
