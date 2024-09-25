@@ -135,14 +135,13 @@ This will be useful while player is started in .bashrc
 ## Device setup for system testing
 
 ### Install and run manager
-- Edit /home/intenscity/prod/vlbox.conf for the correct id and name (e.g. 66c8e979b4af067d0eced8ff and VLBox0011-imo)
+- Edit /etc/vlbox/vlbox.json for the correct id and name (e.g. 66c8e979b4af067d0eced8ff and VLBox0011-imo)
 - ```curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash```
 - ```source ~/.bashrc```
 - ```nvm install 18```
 - ```npm install --global yarn```
 - ```npm install --global forever```
 - ```cd ~/prod```
-- ```mkdir logs```
 - ```sudo mkdir /var/log/vlbox```
 - ```sudo chown intenscity:intenscity /var/log/vlbox``` 
 - ```git clone git@github.com:imoir/intenscity-vlbox-manager.git manager```
@@ -183,7 +182,7 @@ if [ $playerRun = 0 ]
 then
    export DISPLAY=:0.0
    pushd /home/intenscity/prod/player
-   bin/player
+   bin/player >>/var/log/vlbox/player.log 2>&1
    popd
 fi
 ```
@@ -254,7 +253,7 @@ Remove the splash parameter from the file /boot/firmware/cmdline.txt
     - Model : Pi5-v1
     - Mode : Video
     - Light Identifier : Dina 1A
-  - copy the VLBox id to the id field in the file prod/vlbox.conf
+  - copy the VLBox id to the player/id field in the file /etc/vlbox/vlbox.json
     - not strictly needed, but do the same with the name
   - create light box
     - Id : 66cdfa8cb4af067d0eced932
@@ -332,6 +331,29 @@ Note that win32diskimager will make an initial image of the whole microSD card s
   - sudo PiShrink/pishrink.sh -z vlbox_dev_240821.img
 - the resulting file can be imaged to a microSD card and run on an rpi5
   - the imaging can be done with either win32diskimager (recommended) or the Raspberry Pi imager
+
+## Logs
+Log files for the manager are found in the directory /var/log/vlbox.
+There will be a files per day with files being deleted after 20 days.??
+
+The player logs are integrated into the syslog system.
+
+To view the manager logs in an ssh session, use the ```less``` command.
+To view the logs from September 25 2024, use the following command
+- less /var/log/vlbox/manager-2024-09-25.log
+
+Initially, the oldest logs are shown first.
+Press the letter 'G' (capital g) to move to the latest logs.
+From there press, the 'b' key to go back in the log, the space bar to go forward.
+Press 'q' to quit.
+
+To view the player logs enter the ```journalctl``` command at the ssh command line. The player logs will be mixed in with the other syslog logs.
+
+To move around the syslog, use the same keys used above when looking at manager logs.
+
+To view logs in real time, use the following commands:
+- tail -f /var/log/vlbox/manager-2024-09-25.log
+- journalctl -f
 
 ## Orange Pi 5 (opi5)
 
