@@ -155,23 +155,6 @@ This will be useful while player is started in .bashrc
 - ```yarn staging```
 - verify that vlbox-manager is running using the command ```forever list```
 
-- yarn add axios-digest
-- yarn add winston
-- yarn add winston-syslog
-
-WARNING - very FUGLY
-replace line 154 in node_modules/axios-digest/index.js
-
-        var paramsString = authHeader.split(/\s*,?\s*Digest\s*/).filter(function (v) { return v !== ''; });
-
-with
-
-        var authHeader2 = authHeader.concat(", opaque=\"opaque\"");
-        var paramsString = authHeader2.split(/\s*,?\s*Digest\s*/).filter(function (v) { return v !== ''; });
-or
-        const authHeader2 = authHeader.concat(", opaque=\"opaque\"");
-        var paramsString = authHeader2.split(/\s*,?\s*Digest\s*/).filter(function (v) { return v !== ''; });
-
 ### Set player to run as service
 Copy the following into the file ```/etc/systemd/system/intenscity-player.service```
 ```
