@@ -148,11 +148,10 @@ This will be useful while player is started in .bashrc
 - ```git clone git@github.com:imoir/intenscity-vlbox-manager.git manager```
 - ```cd manager```
 - ```git checkout libvlc```
-- set the projector ip address in the manager/config/staging.json5 file
-- set the light box id and address in the prod/vlbox.conf file
+- set the projector ip address, the light box id and address in the /etc/vlbox/vlbox.json file
 - ```yarn```
 - ```yarn build```
-- ```yarn staging```
+- ```yarn vlbox```
 - verify that vlbox-manager is running using the command ```forever list```
 
 ### Set player to run as service
@@ -216,7 +215,7 @@ stoppedLines=`forever list 2> /dev/null | grep 'Intenscity - vlbox-manager' | gr
 managerRun=$(($managerLines - $stoppedLines))
 if [ $managerRun = 0 ]
 then
-   yarn staging > /dev/null 2>&1
+   yarn vlbox > /dev/null 2>&1
 fi
 popd > /dev/null
 ```
