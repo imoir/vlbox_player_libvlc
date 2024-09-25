@@ -2,7 +2,7 @@
  "player" : {
   "debug" : true,
   "pipe" : "/tmp/player-manager",
-  "media" : "/home/intenscity/prod/scenarios/",
+  "media" : "/home/imo/prod/scenarios/",
   "name" : "VLBox0011-imo",
   "id" : "66c8e979b4af067d0eced8ff",
   "mode" : "video",
@@ -28,7 +28,7 @@
  },
  "projector" : {
   "disabled" : true,
-  "apiUrl" : "http://192.168.50.31/api/v01/control/escvp21?cmd=",
+  "apiUrl" : "http://10.168.0.183/api/v01/control/escvp21?cmd=",
   "user" : "EPSONWEB",
   "password" : "CITY"
  },
