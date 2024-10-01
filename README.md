@@ -153,6 +153,21 @@ This will be useful while player is started in .bashrc
 - ```yarn vlbox```
 - verify that vlbox-manager is running using the command ```forever list```
 
+WARNING - very FUGLY
+replace line 154 in node_modules/axios-digest/index.js
+
+        var paramsString = authHeader.split(/\s*,?\s*Digest\s*/).filter(function (v) { return v !== ''; });
+
+with
+
+        var authHeader2 = authHeader.concat(", opaque=\"opaque\"");
+        var paramsString = authHeader2.split(/\s*,?\s*Digest\s*/).filter(function (v) { return v !== ''; });
+
+
+If you see the following error when sending a command to the projector, it is because the above hack was not done.
+
+```2024-09-27 04:59:20.069 [error] [ProjectorConnectorEpson] can't send command to projector. Error: Auth params error.```
+  
 ### Set player to run as service
 Copy the following into the file ```/etc/systemd/system/intenscity-player.service```
 ```
