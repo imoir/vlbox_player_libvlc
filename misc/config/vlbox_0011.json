@@ -39,7 +39,7 @@
   "disabled" : false
  },
  "crons" : {
-  "sendVLBoxStatus" : "30 * * * * *",
-  "getCloudStatus" : "*/10 * * * * *"
+    "sendVLBoxStatus" : "40 * * * * *",
+    "getCloudStatus" : "20 * * * * *"
  }
 }

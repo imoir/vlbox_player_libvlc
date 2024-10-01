@@ -3,15 +3,15 @@
   "debug" : true,
   "pipe" : "/tmp/player-manager",
   "media" : "/home/intenscity/prod/scenarios/",
-  "name" : "VLBox0008-bureau",
-  "id" : "665e28b6e0ba4fc39b8fbaf0",
+  "name" : "VLBox0007-Chalons",
+  "id" : "665e285fe0ba4fc39b8fbaee",
   "mode" : "video",
   "audio" : false,
   "height" : 0
  },
  "lightbox" : {
-  "66cdfa8cb4af067d0eced932" : {
-   "ip" : "10.168.0.166",
+  "668677d8956eb642534e1147" : {
+   "ip" : "192.168.10.104",
    "port" : 2430,
    "type" : "Siudi11A"
   }
@@ -28,9 +28,9 @@
  },
  "projector" : {
   "disabled" : false,
-  "apiUrl" : "http://10.168.0.183/api/v01/control/escvp21?cmd=",
+  "apiUrl" : "http://192.168.10.17/api/v01/control/escvp21?cmd=",
   "user" : "EPSONWEB",
-  "password" : "CITY"
+  "password" : "Videlio%69"
  },
  "services" : {
   "api": "https://api.intenscity.io"
@@ -39,7 +39,7 @@
   "disabled" : false
  },
  "crons" : {
-    "sendVLBoxStatus" : "40 * * * * *",
-    "getCloudStatus" : "20 * * * * *"
+  "sendVLBoxStatus" : "40 * * * * *",
+  "getCloudStatus" : "20 * * * * *"
  }
 }
